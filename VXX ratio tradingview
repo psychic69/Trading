@@ -1,0 +1,37 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Psychic69
+// Elefante VIX/VXV
+
+study("VIX to VXV Ratio Elefante", overlay=false)
+
+sym0 = input(title="Symbol", type=symbol, defval="VIX")
+sym1 = input(title="Symbol", type=symbol, defval="VXV")
+
+OUT0 = input(defval=1.3,title="Market Fail", type=float)
+OUT1 = input(defval=1,title="Mendoza Line", type=float)
+OUT2 = input(defval=0.95,title="Floor Bull", type=float)
+OUT3 = input(defval=0.82,title="Strong Bull Indicator", type=float )
+
+RAT0 = security(sym0, period, close)
+RAT1 = security(sym1, period, close)
+
+MOV0 = input(title="EMA Period", type=integer, defval=20)
+
+k = ema(RAT0 / RAT1, MOV0)
+
+h0 = hline(OUT0)
+h1 = hline(OUT1)
+h2 = hline(OUT2)
+h3 = hline(OUT3)
+
+
+plot(k, color=orange, style = line, linewidth = 2)
+
+fill(h0,h1, color= white, transp=90)
+
+hline(OUT0, linestyle = solid, color = red, linewidth = 3)
+hline(OUT1, linestyle = dotted, color = yellow)
+hline(OUT2, linestyle = dotted, color = lime)
+hline(OUT3, linestyle = solid, color = green, linewidth = 3)
+
+plot((RAT0 / RAT1), color = teal, style = line, linewidth = 2)
